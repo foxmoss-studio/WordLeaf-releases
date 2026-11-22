@@ -29,6 +29,12 @@ class ReleaseGuardTests(unittest.TestCase):
             "signing-private.key",
             "/outside/installer.exe",
             "../secret.txt",
+            "private-notes.txt",
+            "src-tauri/src/lib.rs",
+            "installer/report.docx",
+            "scripts/private.ts",
+            "models/local-model.gguf",
+            "docs/notes.txt",
         ):
             with self.subTest(value=value):
                 self.assertTrue(guard.denied_path(value))
@@ -38,6 +44,8 @@ class ReleaseGuardTests(unittest.TestCase):
             "windows/WordleafSetup.exe",
             "windows/Wordleaf_0.2.4_x64-setup.exe",
             "installers.json",
+            "latest.json",
+            "macos/WordleafInstaller.pkg",
             "installer/corrected.nsi",
             ".github/workflows/publish-windows-release.yml",
             "scripts/check-public-release-inventory.py",
