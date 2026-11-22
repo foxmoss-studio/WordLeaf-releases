@@ -19,6 +19,9 @@ jobs:
         with:
           lfs: true
 
+      - name: Reject unintended public project files before publishing
+        run: python3 scripts/check-public-release-inventory.py
+
       - name: Select newest Windows installer
         id: installer
         shell: bash
