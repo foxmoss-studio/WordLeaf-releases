@@ -65,14 +65,16 @@ class ReleaseGuardTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             try:
                 os.chdir(tmp)
-                Path("good.txt").write_text("A public installer description.\n")
-                Path("token.txt").write_text("ghp_" + "A" * 36)
-                Path("private.txt").write_text(
+                Path("installer").mkdir()
+                Path("installer/good.txt").write_text("A public installer description.\n")
+                Path("installer/token.txt").write_text("ghp_" + "A" * 36)
+                Path("installer/private.txt").write_text(
                     "-----BEGIN " + "OPENSSH PRIVATE KEY-----\n"
                 )
-                Path("large.txt").write_text("X" * 2_000_001)
+                Path("installer/large.txt").write_text("X" * 2_000_001)
                 problems = guard.audit(
-                    ["good.txt", "token.txt", "private.txt", "large.txt"]
+                    ["installer/good.txt", "installer/token.txt",
+                     "installer/private.txt", "installer/large.txt"]
                 )
                 self.assertEqual(len(problems), 3, problems)
                 self.assertTrue(any("token signature" in x for x in problems))
