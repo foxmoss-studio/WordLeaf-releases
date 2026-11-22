@@ -12,7 +12,17 @@ import re
 import subprocess
 import sys
 
-BANNED_SUFFIXES = (".wlw", ".typ", ".typst", ".pem", ".key", ".p12", ".pfx")
+BANNED_SUFFIXES = (
+    ".wlw", ".typ", ".typst", ".pem", ".key", ".p12", ".pfx",
+    ".doc", ".docx", ".rtf", ".epub", ".rs", ".tsx", ".jsx", ".ts",
+    ".swift", ".map", ".sqlite", ".sqlite3", ".db", ".bak",
+)
+PUBLIC_ROOT_FILES = {
+    "readme.md", ".gitattributes", "installers.json", "latest.json",
+}
+PUBLIC_PATH_PREFIXES = (
+    "windows/", "macos/", "installer/", ".github/workflows/", "scripts/",
+)
 TEXT_SUFFIXES = {
     ".md", ".txt", ".json", ".yaml", ".yml", ".ps1", ".nsi", ".py",
     ".sh", ".toml", ".conf", ".ini", ".xml",
@@ -35,6 +45,10 @@ def denied_path(raw: str) -> bool:
         or path.endswith(BANNED_SUFFIXES)
         or name == ".env"
         or name.startswith(".env.")
+        or not (
+            path in PUBLIC_ROOT_FILES
+            or path.startswith(PUBLIC_PATH_PREFIXES)
+        )
     )
 
 def tracked_paths() -> list[str]:
